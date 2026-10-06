@@ -1,0 +1,46 @@
+# Knapsack Problem using Dynamic Programming
+
+def knapsack(weights, profits, capacity):
+    n = len(weights)
+
+    dp = [[0] * (capacity + 1)
+          for _ in range(n + 1)]
+
+    for i in range(1, n + 1):
+        for w in range(capacity + 1):
+
+            if weights[i - 1] <= w:
+                dp[i][w] = max(
+                    profits[i - 1] +
+                    dp[i - 1][w - weights[i - 1]],
+                    dp[i - 1][w]
+                )
+            else:
+                dp[i][w] = dp[i - 1][w]
+
+    return dp[n][capacity]
+
+
+print("KNAPSACK PROBLEM")
+
+n = int(input("Enter number of items: "))
+
+weights = []
+profits = []
+
+for i in range(n):
+    print("\nItem", i + 1)
+    w = int(input("Weight: "))
+    p = int(input("Profit: "))
+
+    weights.append(w)
+    profits.append(p)
+
+capacity = int(input("\nEnter capacity: "))
+
+answer = knapsack(weights, profits, capacity)
+
+print("\nWeights:", weights)
+print("Profits:", profits)
+print("Capacity:", capacity)
+print("Maximum Profit:", answer)
